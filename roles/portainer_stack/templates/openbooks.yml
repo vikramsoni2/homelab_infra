@@ -1,0 +1,13 @@
+version: "3.3"
+services:
+  openbooks:
+    container_name: OpenBooks
+    image: evanbuss/openbooks:latest
+    restart: unless-stopped
+    ports:
+      - "8084:80"
+    volumes:
+      - "/appdata/openbooks:/books"
+    command: --persist
+    environment:
+      - BASE_PATH=/

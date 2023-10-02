@@ -1,0 +1,15 @@
+---
+- name: Include essential.yml
+  ansible.builtin.import_tasks: essential.yml
+  tags: essential
+
+- name: Include user.yml
+  ansible.builtin.import_tasks: user.yml
+  tags: user
+
+- name: Mount drives
+  ansible.builtin.import_tasks: mount.yml
+  tags: mount
+
+# - name: Include ssh.yml
+#   include_tasks: ssh.yml

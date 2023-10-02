@@ -1,0 +1,48 @@
+---
+- hosts: all
+  name: Elite
+  become: true
+
+  # tasks:
+  #   - name: Debug
+  #     tags: debug
+  #     debug:
+  #       var: cloudflare_api_key
+
+  roles:
+    - role: system
+      tags: system
+
+    - role: samba
+      tags: samba
+
+    - role: neofetch
+      tags: neofetch
+
+    - role: geerlingguy.pip
+      tags: pip
+
+    - role: docker
+      tags:
+        - docker
+        - dockercore
+
+    - role: portainer
+      tags:
+        - docker
+        - portainer
+
+    - role: cloudflare_ddns
+      tags:
+        - docker
+        - cf
+
+    - role: homepage
+      tags:
+        - docker
+        - homepage
+
+    - role: portainer_stack
+      tags:
+        - docker
+        - stack

@@ -1,0 +1,23 @@
+packages:
+  - sudo
+  - neofetch
+  - tmux
+  - htop
+  - curl
+  - samba
+  - powertop
+  - gdisk
+  - aptitude
+  - hdparm
+  - rsync
+  - nvme-cli
+  - smartmontools
+
+mounts:
+  - src: /dev/nvme0n1
+    path: /mnt/disk1
+
+
+docker_install_compose_plugin: true
+
+portainer_api_url: "http://{{ server_ip }}:9000"

@@ -1,0 +1,10 @@
+version: '3.3'
+services:
+    jdownloader-2:
+        container_name: jdownloader-2
+        ports:
+            - '5800:5800'
+        volumes:
+            - '/appdata/jdownloader:/config:rw'
+            - '/mnt/media/etc/downloads:/output:rw'
+        image: jlesage/jdownloader-2

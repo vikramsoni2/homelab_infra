@@ -1,0 +1,58 @@
+- name: Create portainer stacks
+  ansible.builtin.include_tasks: create_stack.yml
+  vars:
+    portainer_host: "{{ portainer_api_url }}"
+    admin_user: "{{ portainer_admin_user }}"
+    admin_password: "{{ portainer_admin_password }}"
+    endpoint_id: "{{portainer_endpoint_id }}"
+    stack_name: "{{ item.name }}"
+    stack_compose: "{{ lookup('ansible.builtin.template', role_path + '/templates/' + item.file) }}"
+    directories: "{{ item.dirs }}"
+
+  with_items:
+
+    - name: homepage
+      file: homepage.yml
+
+    - name: jellyfin
+      file: jellyfin.yml
+      dirs: 
+        - config
+        - cache
+
+    - name: nginx
+      file: nginx.yml
+      dirs: 
+        - config
+        - cache
+        - mariadb
+
+    - name: jdownloader
+      file: jdownloader.yml
+
+    - name: jellyseerr
+      file: jellyseerr.yml
+
+    - name: openbooks
+      file: openbooks.yml
+
+    - name: prowlarr
+      file: prowlarr.yml  
+
+    - name: radarr
+      file: radarr.yml 
+    
+    - name: wireguard
+      file: wireguard.yml 
+    
+    - name: qbittorrent
+      file: qbittorrent.yml
+      dirs: 
+        - glueton
+        - config
+
+    # - name: adguard
+    #   file: adguard.yml
+    #   dirs: 
+    #     - conf
+    #     - work

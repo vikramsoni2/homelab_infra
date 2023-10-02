@@ -1,0 +1,47 @@
+---
+- name: Authenticate with Portainer API
+  uri:
+    url: "{{ portainer_api_url }}/api/auth"
+    method: POST
+    headers:
+      Content-Type: "application/json"
+    body_format: json
+    body:
+      username: "admin"
+      password: "{{ portainer_admin_password }}"
+  register: auth_response
+  changed_when: false
+  ignore_errors: true
+
+- name: Check authentication response
+  fail:
+    msg: "Failed to authenticate with Portainer API"
+  when: "auth_response.status != 200"
+
+- name: Get JWT token from authentication response
+  set_fact:
+    jwt_token: "{{ auth_response.json.jwt }}"
+  when: auth_response.status == 200
+
+- name: Create a stack in Portainer
+  uri:
+    url: "{{ portainer_api_url }}/api/stacks/create/standalone/string?endpointId=2"
+    method: POST
+    headers:
+      Content-Type: "application/json"
+      Authorization: "Bearer {{ jwt_token }}"
+    body_format: json
+    body:
+      name: "{{ stack_name }}"
+      fromAppTemplate: false
+      StackFileContent: "{{ lookup('file', role_path + '/files/cloudflare_ddns.yml') | replace('<CLOUDFLARE_API_KEY>', cloudflare_api_key) }}"
+      
+  register: create_stack_response
+  when: jwt_token is defined
+  
+
+- name: Check stack creation response
+  fail:
+    msg: "Failed to create stack in Portainer"
+  when: "create_stack_response.status != 200"
+

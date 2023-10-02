@@ -1,0 +1,39 @@
+version: "2.1"
+services:
+  gluetun:
+    image: qmcgaw/gluetun
+    container_name: gluetun
+    cap_add:
+      - NET_ADMIN
+    network_mode: bridge
+    ports:
+      - 6881:6881
+      - 6881:6881/udp
+      - 8083:8083
+    volumes:
+      - /appdata/qbittorrent/glueton:/gluetun
+    environment:
+      - VPN_SERVICE_PROVIDER={{ qbittorrent_vpn_provider }}
+      - VPN_TYPE={{ qbittorrent_vpn_type }}
+      - WIREGUARD_PRIVATE_KEY={{ qbittorrent_vpn_key }}
+      - TZ=Europe/Madrid
+      - SERVER_COUNTRIES=Spain
+    restart: unless-stopped
+
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent
+    container_name: qbittorrent
+    network_mode: "service:gluetun"
+    environment:
+      - PUID=1000
+      - PGID=100
+      - TZ=Europe/Madrid
+      - WEBUI_PORT=8083
+    volumes:
+      - /appdata/qbittorrent/config:/config
+      - /mnt/media//drive/videos/downloads:/downloads
+      - /mnt/media/drive/videos/others/:/others
+    depends_on:
+      - gluetun
+
+    restart: unless-stopped

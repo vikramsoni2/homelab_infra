@@ -1,0 +1,40 @@
+---
+
+- name: Add samba users
+  ansible.builtin.user:
+    name: "{{ item }}"
+    groups: users, samba
+    append: true
+  loop:
+    - guest
+
+
+- name: Setup samba shares
+  ansible.builtin.include_role:
+      name: vladgh.samba.server
+  vars:
+    samba_apple_extensions: yes
+    samba_shares:
+      - name: cloud
+        comment: cloud
+        path: /mnt/disk1/cloud
+        browsable: yes
+        write_list: +users
+        group: users
+        hide_special_files: yes
+        follow_symlinks: yes
+        hide_dot_files: no
+      - name: media
+        comment: media
+        path: /mnt/media/drive
+        browsable: yes
+        write_list: +users
+        group: users
+        hide_special_files: yes
+        follow_symlinks: yes
+        hide_dot_files: no
+    samba_users:
+      - name: "{{ username }}"
+        password: "{{ samba_pass }}"
+      - name: guest
+        password: guest

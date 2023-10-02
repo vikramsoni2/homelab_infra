@@ -1,0 +1,8 @@
+**/secret.yml
+**/homepage
+README-private.md
+hosts
+
+.vscode/*
+
+.DS_Store

@@ -1,0 +1,102 @@
+---
+# - name: Create a string containing the values of vars
+#   set_fact:
+#     concatenated_string: creating {{ portainer_stack_name }}"
+# - name: Print the concatenated string
+#   debug:
+#     var: concatenated_string
+
+- name: "{{ stack_name }} Authenticate with Portainer API"
+  uri:
+    url: "{{ portainer_host }}/api/auth"
+    method: POST
+    headers:
+      Content-Type: "application/json"
+    body_format: json
+    body:
+      username: "{{ admin_user }}"
+      password: "{{ admin_password }}"
+  register: auth_response
+  changed_when: false
+  ignore_errors: true
+
+
+- name: "{{ stack_name }} Check authentication response"
+  fail:
+    msg: "Failed to authenticate with Portainer API"
+  when: "auth_response.status != 200"
+
+
+- name: "{{ stack_name }} Get JWT token from authentication response"
+  set_fact:
+    jwt_token: "{{ auth_response.json.jwt }}"
+  when: auth_response.status == 200
+
+
+- name: "{{ stack_name }} Get stack information from Portainer"
+  uri:
+    url: "{{ portainer_host }}/api/stacks"
+    method: GET
+    headers:
+      Authorization: "Bearer {{ jwt_token }}"
+  register: get_stack_response
+  when: jwt_token is defined
+
+
+- name: "{{ stack_name }} Debug get_stack_response"
+  debug:
+    var: get_stack_response
+
+
+- name: "{{ stack_name }} Check if the stack exists"
+  set_fact:
+    stack_not_exists: "{{ response_data | json_query('[?Name == `'+ stack_name +'`]') | length <= 0 }}"
+  vars:
+    response_data: "{{ get_stack_response.json }}"  
+
+
+
+- name: "{{ stack_name }} Setup folder for appdata"
+  ansible.builtin.file:
+    path: "/home/{{ username }}/appdata/{{ stack_name }}"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: '0755'
+  when: jwt_token is defined and stack_not_exists
+  ignore_errors: true
+
+- name: "{{ stack_name }} Setup sub folders"
+  ansible.builtin.file:
+    path: "/home/{{ username }}/appdata/{{ stack_name }}/{{ sub_directory }}"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: '0755'
+  loop: "{{ directories }}"
+  loop_control:
+    loop_var: sub_directory
+  when: directories is defined and directories | length > 0 and stack_not_exists
+
+
+
+- name: "{{ stack_name }} Create a stack in Portainer"
+  uri:
+    url: "{{ portainer_host }}/api/stacks/create/standalone/string?endpointId={{ endpoint_id }}"
+    method: POST
+    headers:
+      Content-Type: "application/json"
+      Authorization: "Bearer {{ jwt_token }}"
+    body_format: json
+    body:
+      name: "{{ stack_name }}"
+      fromAppTemplate: false
+      StackFileContent: "{{ stack_compose }}"
+  register: create_stack_response
+  when: jwt_token is defined and stack_not_exists
+
+- name: "{{ stack_name }} Check stack creation response"
+  fail:
+    msg: "Failed to create stack in Portainer"
+  when: stack_not_exists and create_stack_response.status != 200 
+

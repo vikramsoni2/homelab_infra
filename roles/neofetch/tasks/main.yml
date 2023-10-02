@@ -1,0 +1,15 @@
+---
+- name: Make sure that the neofetch config folder is created
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.config/neofetch"
+    state: directory
+    owner: "{{ username }}"
+    mode: "0755"
+
+- name: Deploy the neofetch configuration file in place
+  ansible.builtin.copy:
+    src: "{{ role_path }}/files/config.conf"
+    dest: "{{ ansible_env.HOME }}/.config/neofetch/config.conf"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: u=rw,g=r,o=r          #comment 0644

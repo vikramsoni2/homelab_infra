@@ -1,0 +1,10 @@
+---
+roles:
+  - name: geerlingguy.docker
+  - name: geerlingguy.pip
+  
+
+collections:
+  - name: ansible.posix
+  - name: vladgh.samba
+  - name: community.docker

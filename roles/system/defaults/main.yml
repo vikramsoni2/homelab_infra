@@ -1,0 +1,12 @@
+username: your-admin-username
+packages:
+  - list of pacakges to install
+
+shell: /bin/bash
+
+ssh_port: 22
+
+
+
+
+

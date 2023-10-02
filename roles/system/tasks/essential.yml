@@ -1,0 +1,37 @@
+- name: Update packages
+  apt:
+    update_cache: yes
+    upgrade: yes
+
+- name: Install essential packages
+  package: 
+    name: "{{ packages }}"
+    state: latest
+
+# - name: Remove EXTERNALLY-MANAGED if we're on debian12
+#   ansible.builtin.file:
+#     path: /usr/lib/python3.11/EXTERNALLY-MANAGED
+#     state: absent
+
+
+- name: Check if the EXTERNALLY-MANAGED file exists
+  ansible.builtin.stat:
+    path: /usr/lib/python3.11/EXTERNALLY-MANAGED
+  register: file_stat
+
+- name: Rename the file to EXTERNALLY-MANAGED-BACKUP if it exists
+  ansible.builtin.copy:
+    src: /usr/lib/python3.11/EXTERNALLY-MANAGED
+    dest: /usr/lib/python3.11/EXTERNALLY-MANAGED-BACKUP
+    remote_src: yes
+  when: file_stat.stat.exists
+
+- name: Remove EXTERNALLY-MANAGED if it exists
+  ansible.builtin.file:
+    path: /usr/lib/python3.11/EXTERNALLY-MANAGED
+    state: absent
+  when: file_stat.stat.exists
+
+
+
+

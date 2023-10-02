@@ -1,0 +1,10 @@
+version: '2'
+services:
+  cloudflare-ddns:
+    image: oznu/cloudflare-ddns:latest
+    restart: always
+    environment:
+      - API_KEY={{ cloudflare_api_key }}
+      - ZONE={{ cloudflare_zone }}
+      - SUBDOMAIN=connect
+      - PROXIED=false
