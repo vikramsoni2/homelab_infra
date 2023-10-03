@@ -17,7 +17,7 @@ mounts:
   - src: /dev/nvme0n1
     path: /mnt/disk1
 
-
-docker_install_compose_plugin: true
+pip_install_packages:
+  - name: docker
 
 portainer_api_url: "http://{{ server_ip }}:9000"

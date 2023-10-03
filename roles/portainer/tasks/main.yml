@@ -1,6 +1,6 @@
 - name: Create portainer folder under appdata
   ansible.builtin.file:
-    path: "/home/{{ username }}/appdata/portainer"
+    path: "/appdata/portainer"
     state: directory
     owner: "{{ username }}"
     group: "{{ username }}"
@@ -11,7 +11,6 @@
     name: portainer
     image: portainer/portainer-ce
     state: started
-    recreate: yes
     restart_policy: always
     published_ports:
       - "8000:8000"
@@ -19,6 +18,7 @@
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /appdata/portainer:/data
+
 
 - name: Create admin account in Portainer
   uri:

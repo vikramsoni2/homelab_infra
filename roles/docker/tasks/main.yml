@@ -24,10 +24,12 @@
     group: "{{ username }}"
     mode: '0755'
 
-- name: Mount /appdata from home folder
+
+- name: "Mount /appdata from home {{username}} folder"
+  tags: bind
   ansible.posix.mount:
     src: "/home/{{ username }}/appdata"
     path: /appdata
     fstype: none
     opts: bind
-    state: present
+    state: mounted
