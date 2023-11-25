@@ -1,8 +1,14 @@
 # homelab_infra
 Ansible playbook to setup my homelab server on Debian 12
 
-# Tasks
-It performs the following tasks:
+# Features
+
+* setup your server with cloudflare DDNS
+* installs nginx proxy manager to make all your docker services available through servicename.your-domain.com
+* setup wireguard vpn using wg-easy with GUI so you can connect to your server from outside.
+
+
+The script performs the following tasks:
 
 * **Essentials** - 
 Installs the essential packages listed in vars.yaml
