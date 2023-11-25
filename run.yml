@@ -32,18 +32,11 @@
         - docker
         - portainer
 
-    - role: cloudflare_ddns
-      tags:
-        - docker
-        - cf
-
-    - role: homepage
-      tags:
-        - docker
-        - homepage
-
     - role: portainer_stack
       tags:
         - docker
         - stack
-        
+
+    # - role: megacmd
+    #   tags:
+    #     - mega

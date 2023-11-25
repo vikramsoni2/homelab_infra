@@ -12,56 +12,55 @@
 
   with_items:
 
-    # - name: cloudflare
-    #   file: cloudflare.yml
+    - name: cloudflare
+      file: cloudflare.yml
 
-    # - name: wireguard
-    #   file: wireguard.yml 
+    - name: wireguard
+      file: wireguard.yml 
 
-    # - name: nginx
-    #   file: nginx.yml
-    #   dirs:
-    #     - config
-    #     - cache
-    #     - mariadb
+    - name: nginx
+      file: nginx.yml
+      dirs:
+        - config
+        - cache
+        - mariadb
 
-    # - name: homepage
-    #   file: homepage.yml
+    - name: homepage
+      file: homepage.yml
 
 
-    # - name: jellyfin
-    #   file: jellyfin.yml
-    #   dirs:
-    #     - config
-    #     - cache
+    - name: jellyfin
+      file: jellyfin.yml
+      dirs:
+        - config
+        - cache
 
-    # - name: jellyseerr
-    #   file: jellyseerr.yml
+    - name: jellyseerr
+      file: jellyseerr.yml
 
-    # - name: prowlarr
-    #   file: prowlarr.yml  
+    - name: prowlarr
+      file: prowlarr.yml  
 
-    # - name: radarr
-    #   file: radarr.yml 
+    - name: radarr
+      file: radarr.yml 
 
     - name: sonarr
       file: sonarr.yml 
 
-    # - name: requestrr
-    #   file: requestrr.yml 
+    - name: requestrr
+      file: requestrr.yml 
 
-    # - name: qbittorrent
-    #   file: qbittorrent.yml
-    #   dirs: 
-    #     - glueton
-    #     - config
+    - name: qbittorrent
+      file: qbittorrent.yml
+      dirs: 
+        - glueton
+        - config
 
-    # - name: jdownloader
-    #   file: jdownloader.yml
+    - name: jdownloader
+      file: jdownloader.yml
 
-
-    # - name: openbooks
-    #   file: openbooks.yml
+    - name: openbooks
+      file: openbooks.yml
     
 
     # - name: adguard

@@ -17,7 +17,7 @@
     samba_shares:
       - name: cloud
         comment: cloud
-        path: /mnt/disk1/cloud
+        path: /mnt/disk1
         browsable: yes
         write_list: +users
         group: users
@@ -26,7 +26,25 @@
         hide_dot_files: no
       - name: media
         comment: media
-        path: /mnt/media/drive
+        path: /mnt/media
+        browsable: yes
+        write_list: +users
+        group: users
+        hide_special_files: yes
+        follow_symlinks: yes
+        hide_dot_files: no
+      - name: backup
+        comment: backups
+        path: /mnt/backup
+        browsable: yes
+        write_list: +users
+        group: users
+        hide_special_files: yes
+        follow_symlinks: yes
+        hide_dot_files: no
+      - name: other
+        comment: others
+        path: /mnt/others
         browsable: yes
         write_list: +users
         group: users

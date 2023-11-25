@@ -7,15 +7,16 @@
     passno: 2
     state: mounted
   with_items:
-    - src: "UUID=5677c4eb-3e6b-433c-982f-84ba5a5815a8"
+    - src: "LABEL=black"
       path: "/mnt/disk1"
-    - src: "UUID=17d620e1-3fbd-477c-ba2e-8a6cf2fc8163"
+    - src: "LABEL=nvme_old"
       path: "/mnt/disk2"
-    - src: "UUID=5c887ede-c5f8-4b56-a0e4-1156c34e7b27"
+    - src: "LABEL=t5"
+      path: "/mnt/disk3"
+
+    - src: "LABEL=book"
       path: "/mnt/media"
-    - src: "UUID=ce7f0de4-f1e4-4e4b-a60b-826dd12cf947"
+    - src: "LABEL=other"
       path: "/mnt/others"
-    - src: "UUID=696497b9-d3d6-4fbd-96dc-b4279afbc5da"
+    - src: "LABEL=4tb"
       path: "/mnt/backup"
-    # - src: "UUID=61815d08-86a6-4c46-baeb-f9c73f2ba905"
-    #   path: "/mnt/disk3"

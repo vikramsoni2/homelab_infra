@@ -1,10 +1,4 @@
 ---
-# - name: Create a string containing the values of vars
-#   set_fact:
-#     concatenated_string: creating {{ portainer_stack_name }}"
-# - name: Print the concatenated string
-#   debug:
-#     var: concatenated_string
 
 - name: "{{ stack_name }} Authenticate with Portainer API"
   uri:
